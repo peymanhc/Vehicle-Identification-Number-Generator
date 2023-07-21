@@ -14,12 +14,12 @@ export default {
     get({
       api: "/equipmentCodes",
     }),
-  addVin: (model) =>
+  addVin: (model: AddVinRequest) =>
     post({
       api: "/add",
       model,
     }),
-  searchSerialNumber: (model) =>
+  searchSerialNumber: (model: SearchSerialNumberRequest) =>
     post({
       api: "/search",
       model,

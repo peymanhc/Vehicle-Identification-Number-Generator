@@ -1,9 +1,11 @@
 // libraries
 import React, { useState, useEffect } from "react";
 // components
-import VinList from "./components/VinList";
-import Select from "./components/Select";
-import AppServices from "./services/App/index";
+import FormItem from "components/FormItem";
+import VinList from "components/VinList";
+import Select from "components/Select";
+// hooks
+import useApp from "hooks/App/app.hooks";
 // styles
 import "./App.css";
 
@@ -18,17 +20,24 @@ const App = () => {
     searchSerialNumber: "",
     vinList: [],
   });
-
   const [places, setplaces] = useState<Array<PlacesTypes>>([]);
   const [equipmentCodes, setEquipmentCodes] = useState<
     Array<EquipmentCodeTypes>
   >([]);
+  const {
+    getVinList,
+    getPlaces,
+    getEquipmentCodes,
+    getSerialNumber,
+    postVinCode,
+  } = useApp();
 
   useEffect(() => {
-    AppServices.getEquipmentCodes().then((equipmentCodes) => {
+    getEquipmentCodes().then((equipmentCodes) => {
       setEquipmentCodes(equipmentCodes.data);
+      console.log(equipmentCodes);
     });
-    AppServices.getPlaces().then((places) => {
+    getPlaces().then((places) => {
       setplaces(places.data);
     });
   }, []);
@@ -55,7 +64,7 @@ const App = () => {
       serialNumber,
       place,
     };
-    AppServices.searchSerialNumber(payload)
+    getSerialNumber(payload)
       .then((response) => {
         const nextSerialNumber = response.data.serialNumber;
         setFormValues({ ...formValues, searchSerialNumber: nextSerialNumber });
@@ -65,9 +74,20 @@ const App = () => {
       });
   };
 
+  const fetchVinList = async () => {
+    getVinList()
+      .then((response) => {
+        const vinList = response.data;
+        setFormValues({ ...formValues, vinList });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
   const addVin = async () => {
     const { vin } = formValues;
-    AppServices.addVin({ vin })
+    postVinCode({ vin })
       .then((response) => {
         setFormValues({
           ...formValues,
@@ -80,21 +100,10 @@ const App = () => {
           searchSerialNumber: "",
         });
         alert("VIN number added successfully!");
+        fetchVinList();
       })
       .catch((err) => {
         alert("Error to add VIN Number");
-      });
-  };
-
-  const fetchVinList = async () => {
-    AppServices.getVinList()
-      .then((response) => {
-        const vinList = response.data;
-        setFormValues({ ...formValues, vinList });
-        console.log(response);
-      })
-      .catch((err) => {
-        console.error(err);
       });
   };
 
@@ -103,8 +112,7 @@ const App = () => {
       <h1 className="heading">Vehicle Identification Number (VIN) Generator</h1>
       <div className="form-section">
         <h3 className="form-heading">Generate VIN</h3>
-        <div className="form-row">
-          <label className="form-label">Version:</label>
+        <FormItem label="Version">
           <input
             type="number"
             name="version"
@@ -112,18 +120,16 @@ const App = () => {
             onChange={handleInputChange}
             className="form-input"
           />
-        </div>
-        <div className="form-row">
-          <label className="form-label">Equipment Code:</label>
+        </FormItem>
+        <FormItem label="Equipment Code">
           <Select
             name="equipmentCode"
             handleChange={handleInputChange}
-            value={formValues.place}
+            value={formValues.equipmentCode}
             data={equipmentCodes}
           />
-        </div>
-        <div className="form-row">
-          <label className="form-label">Year of Issue:</label>
+        </FormItem>
+        <FormItem label="Year of Issue">
           <input
             type="number"
             name="year"
@@ -131,18 +137,16 @@ const App = () => {
             onChange={handleInputChange}
             className="form-input"
           />
-        </div>
-        <div className="form-row">
-          <label className="form-label">Place of Production:</label>
+        </FormItem>
+        <FormItem label="Place of Production">
           <Select
             name="place"
             handleChange={handleInputChange}
             value={formValues.place}
             data={places}
           />
-        </div>
-        <div className="form-row">
-          <label className="form-label">Serial Number:</label>
+        </FormItem>
+        <FormItem label="Serial Number">
           <input
             type="number"
             name="serialNumber"
@@ -150,7 +154,7 @@ const App = () => {
             onChange={handleInputChange}
             className="form-input"
           />
-        </div>
+        </FormItem>
         <button
           disabled={
             !formValues.version ||
@@ -167,8 +171,7 @@ const App = () => {
       </div>
       <div className="form-section">
         <h3 className="form-heading">Search and Add VIN</h3>
-        <div className="form-row">
-          <label className="form-label">Next Serial Number:</label>
+        <FormItem label="Next Serial Number">
           <input
             type="text"
             name="searchSerialNumber"
@@ -176,7 +179,7 @@ const App = () => {
             readOnly
             className="form-input"
           />
-        </div>
+        </FormItem>
         <button
           onClick={searchSerialNumber}
           disabled={
