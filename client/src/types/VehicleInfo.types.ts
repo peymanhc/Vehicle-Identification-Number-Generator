@@ -2,8 +2,8 @@
 interface VehicleInfoTypes {
   version: string;
   equipmentCode: string;
-  year: string;
-  place: string;
+  yearOfIssue: string;
+  placeOfProduction: string;
   serialNumber: string;
   vin: string;
   searchSerialNumber: string;

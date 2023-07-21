@@ -9,7 +9,7 @@ const VinList = ({ data }: VinListTypes) => {
         </tr>
       </thead>
       <tbody>
-        {data.map((vin, index) => (
+        {data?.map((vin, index) => (
           <tr key={index}>
             <td>{vin}</td>
           </tr>

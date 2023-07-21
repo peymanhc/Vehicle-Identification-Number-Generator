@@ -4,7 +4,7 @@ interface AddVinRequest {
 interface SearchSerialNumberRequest {
   version: string;
   equipmentCode: string;
-  year: string;
+  yearOfIssue: string;
   serialNumber: string;
-  place: string;
+  placeOfProduction: string;
 }

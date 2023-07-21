@@ -1,6 +1,10 @@
-import React from "react";
+import { convertToArray } from "helper/objectConverters";
 
 const Select = ({ value, handleChange, data, name }: SelectTypes) => {
+  function processValue(value: unknown) {
+    const strValue = value as string;
+    return strValue;
+  }
   return (
     <select
       name={name}
@@ -9,8 +13,8 @@ const Select = ({ value, handleChange, data, name }: SelectTypes) => {
       className="form-select"
     >
       <option>Select one {name}</option>
-      {data.map((item, i) => (
-        <option key={i} value={item.value}>
+      {convertToArray(data)?.map((item, i) => (
+        <option key={i} value={processValue(item.value)}>
           {item.name}
         </option>
       ))}

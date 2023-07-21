@@ -11,6 +11,9 @@
       "services/*": [
         "services/*"
       ],
+      "helper/*": [
+        "helper/*"
+      ],
       "types/*": [
         "types/*"
       ],

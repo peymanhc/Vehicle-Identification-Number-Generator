@@ -4,24 +4,19 @@ import { get, post } from "../api";
 export default {
   getVinList: () =>
     get({
-      api: "/vinList",
+      api: "/vehicle",
     }),
   getPlaces: () =>
     get({
-      api: "/places",
+      api: "/vehicle/place-of-products",
     }),
   getEquipmentCodes: () =>
     get({
-      api: "/equipmentCodes",
+      api: "/vehicle/equipment-codes",
     }),
   addVin: (model: AddVinRequest) =>
     post({
-      api: "/add",
-      model,
-    }),
-  searchSerialNumber: (model: SearchSerialNumberRequest) =>
-    post({
-      api: "/search",
+      api: "/vehicle",
       model,
     }),
 };

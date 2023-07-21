@@ -12,9 +12,6 @@ function useApp() {
   function getEquipmentCodes() {
     return AppServices.getEquipmentCodes();
   }
-  function getSerialNumber(model: SearchSerialNumberRequest) {
-    return AppServices.searchSerialNumber(model);
-  }
   function postVinCode(model: AddVinRequest) {
     return AppServices.addVin(model);
   }
@@ -23,7 +20,6 @@ function useApp() {
     getVinList,
     getPlaces,
     getEquipmentCodes,
-    getSerialNumber,
     postVinCode
   };
 }
