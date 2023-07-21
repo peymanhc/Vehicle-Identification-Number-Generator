@@ -164,6 +164,7 @@ const App = () => {
           }
           onClick={generateVin}
           className="form-button"
+          data-cy="generate"
         >
           Generate
         </button>
@@ -188,6 +189,7 @@ const App = () => {
             !formValues.year ||
             !formValues.place
           }
+          data-cy="search"
           className="form-button"
         >
           Search
@@ -196,6 +198,7 @@ const App = () => {
           onClick={addVin}
           disabled={!formValues.vin || !formValues.searchSerialNumber}
           className="form-button"
+          data-cy="addVin"
         >
           Add
         </button>

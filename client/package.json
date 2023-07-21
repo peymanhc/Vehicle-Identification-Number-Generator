@@ -16,7 +16,8 @@
     "start": "react-scripts start",
     "build": "set BUILD_PATH=../server/public & react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "cypress:open": "cypress open"
   },
   "eslintConfig": {
     "extends": [
@@ -37,6 +38,7 @@
     ]
   },
   "devDependencies": {
+    "cypress": "^12.17.2",
     "typescript": "^5.1.6"
   }
 }
