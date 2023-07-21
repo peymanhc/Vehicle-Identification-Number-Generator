@@ -1,10 +1,10 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
-function randomInt(min, max) {
+function randomInt(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-function timeDelay(k) {
+function timeDelay(k: number): number {
   const base_interval = 0.5;
   const base_multiplier = 1.5;
   const retry_interval = base_interval * base_multiplier ** (k - 1) * 1000;
@@ -12,13 +12,13 @@ function timeDelay(k) {
   return retry_interval + randomInt(0, max);
 }
 
-function wait(delay) {
+function wait(delay: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, delay));
 }
 
 let _retry_count = 0;
 
-export function resetRetry() {
+export function resetRetry(): void {
   _retry_count = 0;
 }
 
@@ -30,18 +30,18 @@ const instance = axios.create({
     'Content-Type': 'application/json',
   },
 });
+
 instance.interceptors.response.use(
-  (resp) => ({
+  (resp: AxiosResponse) => ({
     ...resp,
   }),
   async (err) => {
-    const origReqConfig = err.config;
-    if (err.response.status >= 500 && _retry_count < 4) {
+    const origReqConfig: AxiosRequestConfig = err.config;
+    if (err.response && err.response.status >= 500 && _retry_count < 4) {
       _retry_count++;
-
-      return wait(timeDelay(_retry_count)).then(() =>
-        instance.request(origReqConfig)
-      );
+      const delay = timeDelay(_retry_count);
+      await wait(delay);
+      return instance.request(origReqConfig);
     }
     return Promise.reject(err);
   }

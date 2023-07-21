@@ -1,6 +1,6 @@
 import React from "react";
 
-const Select = ({ value, handleChange, data, name }) => {
+const Select = ({ value, handleChange, data, name }: SelectTypes) => {
   return (
     <select
       name={name}

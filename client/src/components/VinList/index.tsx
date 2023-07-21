@@ -1,6 +1,6 @@
 import React from "react";
 
-const VinList = ({ data }) => {
+const VinList = ({ data }: VinListTypes) => {
   return (
     <table className="vin-table">
       <thead>

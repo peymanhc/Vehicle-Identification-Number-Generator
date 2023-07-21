@@ -8,7 +8,7 @@ import AppServices from "./services/App/index";
 import "./App.css";
 
 const App = () => {
-  const [formValues, setFormValues] = useState({
+  const [formValues, setFormValues] = useState<VehicleInfoTypes>({
     version: "",
     equipmentCode: "",
     year: "",
@@ -19,8 +19,10 @@ const App = () => {
     vinList: [],
   });
 
-  const [places, setplaces] = useState([]);
-  const [equipmentCodes, setEquipmentCodes] = useState([]);
+  const [places, setplaces] = useState<Array<PlacesTypes>>([]);
+  const [equipmentCodes, setEquipmentCodes] = useState<
+    Array<EquipmentCodeTypes>
+  >([]);
 
   useEffect(() => {
     AppServices.getEquipmentCodes().then((equipmentCodes) => {
@@ -31,7 +33,9 @@ const App = () => {
     });
   }, []);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
+  ) => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value });
   };
   const generateVin = () => {
